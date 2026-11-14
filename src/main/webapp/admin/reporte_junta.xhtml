@@ -1,0 +1,42 @@
+<ui:composition template="/WEB-INF/template.xhtml"
+                xmlns="http://w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="titulo">Reporte de Votos - Juntas Parroquiales</ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form id="formReporteJunta">
+            <p:panel header="Resultados Consolidados de Votos - Juntas Parroquiales">
+                <div style="margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                    <p:outputLabel for="filtroParroquia" value="Filtrar por Parroquia:" style="font-weight: bold;"/>
+                    <p:selectOneMenu id="filtroParroquia" value="#{reportesBean.idParroquiaFiltro}">
+                        <f:selectItem itemLabel="Todas las Parroquias" itemValue=""/>
+                        <f:selectItems value="#{reportesBean.parroquias}" var="p"
+                                       itemLabel="#{p.nombre}" itemValue="#{p.idParroquia}"/>
+                        <p:ajax update="tablaJuntas"/>
+                    </p:selectOneMenu>
+                </div>
+
+                <p:dataTable id="tablaJuntas" value="#{reportesBean.resultadosJunta}" var="fila"
+                             emptyMessage="No existen votos registrados para la parroquia seleccionada.">
+                    <p:column headerText="Parroquia" style="width: 200px;">
+                        <h:outputText value="#{fila[0]}"/>
+                    </p:column>
+                    <p:column headerText="Lista / Movimiento">
+                        <h:outputText value="#{fila[1]}"/>
+                    </p:column>
+                    <p:column headerText="Candidato Junta Parroquial">
+                        <h:outputText value="#{fila[2]}"/>
+                    </p:column>
+                    <p:column headerText="Total de Votos" style="width: 180px; text-align: right;">
+                        <h:outputText value="#{fila[3]}" style="font-weight: bold;"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title><ui:insert name="titulo">Sistema Electoral</ui:insert></title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; background-color: #f4f6f9; }
+        .contenido { padding: 20px; max-width: 1200px; margin: auto; }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="formMenu">
+        <p:menubar>
+            <p:menuitem value="Inicio" outcome="/inicio.xhtml" icon="pi pi-home"/>
+
+            <p:submenu label="Ingreso de Actas" icon="pi pi-file-edit">
+                <p:menuitem value="Actas de Alcalde" outcome="/actas/ingreso_alcalde.xhtml" icon="pi pi-user"/>
+                <p:menuitem value="Actas de Concejales" outcome="/actas/ingreso_concejal.xhtml" icon="pi pi-users"/>
+                <p:menuitem value="Actas de Juntas" outcome="/actas/ingreso_junta.xhtml" icon="pi pi-building"/>
+            </p:submenu>
+
+            <p:menuitem value="Gestión de Usuarios" outcome="/admin/usuarios.xhtml" icon="pi pi-user-plus"
+                        rendered="#{loginBean.administrador}"/>
+
+            <p:submenu label="Reportes de Votos" icon="pi pi-chart-bar" rendered="#{loginBean.administrador}">
+                <p:menuitem value="Resultados Alcaldes" outcome="/admin/reporte_alcalde.xhtml" icon="pi pi-chart-pie"/>
+                <p:menuitem value="Resultados Concejales" outcome="/admin/reporte_concejal.xhtml" icon="pi pi-chart-line"/>
+                <p:menuitem value="Resultados Juntas" outcome="/admin/reporte_junta.xhtml" icon="pi pi-table"/>
+            </p:submenu>
+
+            <f:facet name="options">
+                <span style="margin-right: 15px; font-weight: bold;">
+                    #{loginBean.usuarioLogueado.nombre} #{loginBean.usuarioLogueado.apellido}
+                    (#{loginBean.usuarioLogueado.rol.nombreRol})
+                </span>
+                <p:commandButton value="Cerrar Sesión" action="#{loginBean.cerrarSesion}"
+                                 icon="pi pi-sign-out" styleClass="ui-button-danger" immediate="true"/>
+            </f:facet>
+        </p:menubar>
+    </h:form>
+
+    <div class="contenido">
+        <ui:insert name="cuerpo"/>
+    </div>
+</h:body>
+</html>

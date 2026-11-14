@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Inicio de Sesión - Sistema Electoral</title>
+    <style>
+        body {
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0; background-color: #e9ecef; font-family: Arial, sans-serif;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <h:form id="formLogin">
+        <p:growl id="mensajes" showDetail="true"/>
+
+        <p:panel header="Acceso al Sistema Electoral" style="width: 380px;">
+            <div style="margin-bottom: 15px;">
+                <p:outputLabel for="txtCedula" value="Cédula:" style="display:block; margin-bottom:5px;"/>
+                <p:inputText id="txtCedula" value="#{loginBean.cedula}" required="true"
+                             requiredMessage="Ingrese su cédula" style="width: 100%;"/>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <p:outputLabel for="txtPass" value="Contraseña:" style="display:block; margin-bottom:5px;"/>
+                <p:password id="txtPass" value="#{loginBean.password}" required="true"
+                            requiredMessage="Ingrese su contraseña" style="width: 100%;"/>
+            </div>
+
+            <p:commandButton value="Ingresar" action="#{loginBean.iniciarSesion()}"
+                             update="mensajes" icon="pi pi-sign-in" style="width: 100%;"/>
+        </p:panel>
+    </h:form>
+</h:body>
+</html>

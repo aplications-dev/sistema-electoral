@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0"
+             xmlns="https://jakarta.ee"
+             xmlns:xsi="http://w3.org"
+             xsi:schemaLocation="https://jakarta.ee https://jakarta.ee/persistence_3_0.xsd">
+
+    <persistence-unit name="ElectoralPU" transaction-type="JTA">
+        <!-- Nombre JNDI que configuraremos en WildFly -->
+        <jta-data-source>java:/ControlDS</jta-data-source>
+
+        <properties>
+            <!-- Dialecto específico de PostgreSQL para Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <!-- Valida que las entidades coincidan con las tablas existentes sin borrar datos -->
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
+            <!-- Muestra en consola las consultas SQL ejecutadas (útil en desarrollo) -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
