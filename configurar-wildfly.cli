@@ -1,12 +1,3 @@
 embed-server --server-config=standalone.xml --std-out=echo
-
-# 1. Registrar el módulo del driver de PostgreSQL
-module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=jakarta.api,jakarta.transaction.api
-
-# 2. Registrar el driver JDBC
-/subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
-
-# 3. Crear el Datasource con el JNDI exacto java:/ControlDS
-data-source add --name=ControlDS --jndi-name=java:/ControlDS --driver-name=postgresql --connection-url=${env.DB_URL} --user-name=${env.DB_USER} --password=${env.DB_PASS} --use-ccm=true --max-pool-size=10 --blocking-timeout-wait-millis=5000 --enabled=true
-
+data-source add --name=ControlDS --jndi-name=java:/ControlDS --driver-name=postgresql-42.7.3.jar --connection-url=${env.DB_URL:jdbc:postgresql://localhost:5432/postgres} --user-name=${env.DB_USER:postgres} --password=${env.DB_PASS:postgres} --use-ccm=true --max-pool-size=10 --blocking-timeout-wait-millis=5000 --enabled=true
 stop-embedded-server
