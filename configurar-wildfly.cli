@@ -3,10 +3,10 @@ embed-server --server-config=standalone.xml --std-out=echo
 # 1. Registrar el módulo del driver de PostgreSQL
 module add --name=org.postgresql --resources=/tmp/postgresql.jar --dependencies=jakarta.api,jakarta.transaction.api
 
-# 2. Registrar el driver JDBC en el subsistema de datasources
+# 2. Registrar el driver JDBC
 /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)
 
-# 3. Crear el Datasource leyendo las variables de entorno de la nube
-data-source add --name=ElectoralDS --jndi-name=java:jboss/datasources/ElectoralDS --driver-name=postgresql --connection-url=${env.DB_URL} --user-name=${env.DB_USER} --password=${env.DB_PASS} --use-ccm=true --max-pool-size=10 --blocking-timeout-wait-millis=5000 --enabled=true
+# 3. Crear el Datasource ControlDS (usando las variables de entorno de Render)
+data-source add --name=ControlDS --jndi-name=java:jboss/datasources/ControlDS --driver-name=postgresql --connection-url=${env.DB_URL} --user-name=${env.DB_USER} --password=${env.DB_PASS} --use-ccm=true --max-pool-size=10 --blocking-timeout-wait-millis=5000 --enabled=true
 
 stop-embedded-server
