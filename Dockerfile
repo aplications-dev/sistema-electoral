@@ -17,8 +17,6 @@ COPY configurar-wildfly.cli /tmp/configurar-wildfly.cli
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --file=/tmp/configurar-wildfly.cli && \
     rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current/*
 
-# Copiar el archivo .war compilado al directorio de despliegues de WildFly
-COPY --from=build /app/target/SistemaElectoral.war /opt/jboss/wildfly/standalone/deployments/
 
 # En lugar de especificar un nombre fijo, copia cualquier .war generado en target/
 COPY --from=build /app/target/*.war /opt/jboss/wildfly/standalone/deployments/ROOT.war
