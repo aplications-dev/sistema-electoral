@@ -8,12 +8,12 @@ RUN mvn clean package -DskipTests
 # Etapa 2: Servidor WildFly en producción
 FROM quay.io/wildfly/wildfly:31.0.1.Final-jdk17
 
-# Descargar el driver oficial de PostgreSQL desde Maven Central
+# Descargar el driver oficial completo de PostgreSQL
 USER root
 RUN curl -fSL https://maven.org -o /tmp/postgresql.jar
 USER jboss
 
-# Ejecutar el script CLI para configurar PostgreSQL y el Datasource
+# Ejecutar el script CLI para configurar PostgreSQL y ControlDS
 COPY configurar-wildfly.cli /tmp/configurar-wildfly.cli
 RUN /opt/jboss/wildfly/bin/jboss-cli.sh --file=/tmp/configurar-wildfly.cli && \
     rm -rf /opt/jboss/wildfly/standalone/configuration/standalone_xml_history/current/*
