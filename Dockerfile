@@ -1,17 +1,16 @@
-# Etapa 1: Compilación del archivo .war con Maven y Java 17
+# Etapa 1: Compilación del .war y descarga segura del driver JDBC con Maven
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
 RUN mvn clean package -DskipTests
+RUN mvn dependency:copy -Dartifact=org.postgresql:postgresql:42.7.3 -DoutputDirectory=/app/target
 
 # Etapa 2: Servidor WildFly en producción
 FROM quay.io/wildfly/wildfly:31.0.1.Final-jdk17
 
-# Descargar el driver oficial completo de PostgreSQL
-USER root
-RUN curl -fSL https://maven.org -o /tmp/postgresql.jar
-USER jboss
+# Copiar el driver descargado por Maven hacia /tmp/postgresql.jar
+COPY --from=build /app/target/postgresql-42.7.3.jar /tmp/postgresql.jar
 
 # Ejecutar el script CLI para configurar PostgreSQL y ControlDS
 COPY configurar-wildfly.cli /tmp/configurar-wildfly.cli
